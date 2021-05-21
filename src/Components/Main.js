@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {HashRouter, Route, Switch} from "react-router-dom";
+import {BrowserRouter, Route, Switch} from "react-router-dom";
 import DashBoard from './DashBoard';
 import  Login from './Account/login';
 import Register from './Account/register';
@@ -23,22 +23,22 @@ export default function Main() {
           }
           return (
                <div>
-               <HashRouter>
+               <BrowserRouter>
                          <Switch>
                                  <Route exact path = "/" component={LoginPage}/>
                                  <Route exact path = "/register" component={RegisterPage}/>
                          </Switch>
-                 </HashRouter>
+                 </BrowserRouter>
           </div> 
           );
      }
      return(<div>
-          <HashRouter>
+          <BrowserRouter>
                     <Switch>
                         <Route path = "/" component={DashBoard}/>
                             <Route exact path = "/login" component={Login}/>
                             <Route exact path = "/register" component={Register}/>
                     </Switch>
-            </HashRouter>
+            </BrowserRouter>
      </div>);
 }

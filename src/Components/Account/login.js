@@ -7,7 +7,7 @@ import background from "../../images/login-background.jpeg";
 
 
 /// Loggin in user
-async function loginUser(username, password){
+async function loginUser(username, password, setToken, setError){
 
     const config = {
         headers:{
@@ -17,9 +17,13 @@ async function loginUser(username, password){
 
     const body = JSON.stringify({username,password});
 
-    var res = await axios.post(`<login endpoint>`, body, config)
-    console.log(res.data);
-    return res.data;
+    axios.post(`<login endpoint>`, body, config)
+    .then(res=>{
+        setToken(res.data.token);
+    })
+    .catch(err=>{
+       setError("Incorrect username or password");
+    })
         
 }
 
@@ -27,13 +31,12 @@ export default function Login(props) {
 
     const [username, setUsername] = useState(null);
     const [password, setPassword] = useState(null);
-
+    const [error, setError] = useState(null);
 
 
         const handleSubmit = async e =>{
             e.preventDefault();
-            const data = await loginUser(username,password);
-            props.setToken(data.token);
+            loginUser(username,password, props.setToken, setError);
         }
             return (
                 <div style={{backgroundImage:`url(${background})`, backgroundPosition:"center center", backgroundRepeat:"no repeat",
@@ -59,6 +62,9 @@ export default function Login(props) {
                         </div>
                     </div>
                     <small>Dont have an account?</small><small><Link to="/register">Register</Link></small>
+                    <div>
+                        <small style={{color:"red", fontWeight: "bold"}}>{error}</small>
+                    </div>
                 </div>
              );
    
